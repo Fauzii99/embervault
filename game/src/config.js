@@ -1,20 +1,8 @@
-// Every number a designer might touch lives here: arena, palette, vault geometry, player feel,
-// volley ballistics, scoring, and the wave roster. Modules import these instead of hardcoding.
+// Every number a designer might touch lives here: arena, vault geometry, player feel, volley
+// ballistics, scoring, and the wave roster. Modules import these instead of hardcoding.
+// The colour table is the one exception: it lives in palette.js beside its helper.
 
 export const ARENA = { width: 1280, height: 720, margin: 46 };
-
-export const PALETTE = {
-  void: '#150a24',
-  deep: '#0d0617',
-  grid: '#2c1a4a',
-  amber: '#ffb347',
-  amberHot: '#ffe6a8',
-  ember: '#ff7a29',
-  magenta: '#ff2e88',
-  violet: '#8b5cf6',
-  core: '#fff4e2',
-  white: '#fffaf2',
-};
 
 export const VAULT = {
   radius: 126,
@@ -57,6 +45,7 @@ export const SCORE = {
 export const SHARD_CAP = 16;
 export const WAVE_COUNT = 10;
 export const BOSS_WAVE = 10;
+export const BOSS_BULLET_SPEED = 205;
 
 // Counts per wave, 1..9. Wave 10 is the Warden alone.
 export const SPAWN_TABLE = {

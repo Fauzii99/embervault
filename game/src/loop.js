@@ -2,7 +2,10 @@
 // a direction and vault presses, drained events become sounds, and the status line stays current.
 
 import { WAVE_COUNT } from './config.js';
-import { EVENTS, PHASE, closeVaultAndFire, drainEvents, openVault, startRun, steer, update } from './world.js';
+import { EVENTS, PHASE, drainEvents } from './state.js';
+import { startRun, update } from './simulation.js';
+import { steer } from './player.js';
+import { closeVaultAndFire, openVault } from './vault.js';
 
 const STEP = 1 / 120;
 const MAX_STEPS = 8;

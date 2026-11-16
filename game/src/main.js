@@ -6,7 +6,7 @@ import { createInput } from './input.js';
 import { fitCanvas, startLoop } from './loop.js';
 import { createRenderer } from './render.js';
 import { buildShot } from './shots.js';
-import { createGame } from './world.js';
+import { createGame } from './state.js';
 
 const canvas = document.getElementById('game');
 const status = document.getElementById('status');
