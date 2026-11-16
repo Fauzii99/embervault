@@ -1,37 +1,29 @@
-// EMBERVAULT — tuning constants and the palette. Every number the game balances on lives here, so
-// the feel can be adjusted in one place without touching the simulation.
+// Every number a designer might touch lives here: arena, palette, vault geometry, player feel,
+// volley ballistics, scoring, and the wave roster. Modules import these instead of hardcoding.
 
 export const ARENA = { width: 1280, height: 720, margin: 46 };
 
-// Violet dusk with amber fire and magenta hostiles. Nothing else is allowed on screen.
 export const PALETTE = {
   void: '#150a24',
-  voidDeep: '#0d0617',
+  deep: '#0d0617',
   grid: '#2c1a4a',
-  gridBright: '#3d2663',
   amber: '#ffb347',
   amberHot: '#ffe6a8',
   ember: '#ff7a29',
   magenta: '#ff2e88',
-  magentaDeep: '#a3125c',
   violet: '#8b5cf6',
   core: '#fff4e2',
-  ink: '#0a0410',
   white: '#fffaf2',
 };
 
-// The vault: the one mechanic. Open it to swallow fire, and it costs you your gun and your speed.
 export const VAULT = {
   radius: 126,
   halfArc: (62 * Math.PI) / 180,
+  absorbPad: 10,
   openSpeedScale: 0.6,
-  ringBase: 40,
-  ringStep: 2.4,
-  ringSpin: 2.2,
-  absorbRadiusPad: 10,
+  ringRadius: 86,
+  openEase: 14,
 };
-
-export const SHARD_CAP = 16;
 
 export const PLAYER = {
   radius: 15,
@@ -40,14 +32,17 @@ export const PLAYER = {
   friction: 11,
   lives: 3,
   invulnSeconds: 1.5,
-  fireCooldown: 0.14,
+  hurtDecay: 2.4,
 };
 
 export const VOLLEY = {
   speed: 900,
+  spread: 0.13,
   damage: 2,
+  life: 3.2,
   homingTurn: 9,
-  trailSeconds: 0.22,
+  trailSeconds: 0.16,
+  radius: 6,
 };
 
 export const SCORE = {
@@ -55,11 +50,23 @@ export const SCORE = {
   kill: 150,
   bossKill: 4000,
   waveClear: 500,
-  comboStep: 5,
-  comboMax: 5,
+  comboWindow: 2.6,
+  comboCap: 40,
 };
 
+export const SHARD_CAP = 16;
 export const WAVE_COUNT = 10;
 export const BOSS_WAVE = 10;
-export const TARGET_SCORE = 20000;
 
+// Counts per wave, 1..9. Wave 10 is the Warden alone.
+export const SPAWN_TABLE = {
+  1: { spitter: 3 },
+  2: { spitter: 3, lancer: 1 },
+  3: { spitter: 3, orbiter: 2 },
+  4: { spitter: 4, orbiter: 2, lancer: 1 },
+  5: { spitter: 4, orbiter: 3, lancer: 2 },
+  6: { spitter: 5, orbiter: 3, lancer: 3 },
+  7: { spitter: 5, orbiter: 4, lancer: 4 },
+  8: { spitter: 6, orbiter: 5, lancer: 5 },
+  9: { spitter: 7, orbiter: 7, lancer: 7 },
+};

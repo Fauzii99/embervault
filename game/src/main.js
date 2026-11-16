@@ -1,28 +1,36 @@
-// Entry point. Two modes: the live game (default) and the deterministic screenshot scenes behind
-// ?shot=title|play|peak|over|win, which render one frame of the real simulation for the dossier.
+// Entry point. With ?shot= it renders one deterministic frame for a screenshot and flags readiness;
+// otherwise it wires the live loop and exposes the state for automated playtests.
 
-import { ARENA } from './config.js';
-import { createLoop } from './loop.js';
+import { createAudio } from './audio.js';
+import { createInput } from './input.js';
+import { fitCanvas, startLoop } from './loop.js';
 import { createRenderer } from './render.js';
 import { buildShot } from './shots.js';
+import { createGame } from './world.js';
 
 const canvas = document.getElementById('game');
 const status = document.getElementById('status');
+const renderer = createRenderer(canvas);
 const params = new URLSearchParams(window.location.search);
 const shot = params.get('shot');
 
 if (shot) {
-  document.documentElement.dataset.shot = shot;
+  fitCanvas(canvas);
   const seed = Number(params.get('seed') ?? 1) || 1;
-  const renderer = createRenderer(canvas);
   const { state, view } = buildShot(shot, seed);
-  canvas.width = ARENA.width;
-  canvas.height = ARENA.height;
-  renderer.render(state, view);
-  // A frame of the real game, frozen: nothing animates, so the screenshot is stable.
+  canvas.dataset.scene = view;
+  renderer.draw(state);
+  status.textContent =
+    shot === 'over' || shot === 'win'
+      ? `Score ${state.score}. Press R or enter to restart.`
+      : `EMBERVAULT ${shot} scene. Wave ${state.wave}. Vault holds ${state.shards.length} of 16 shards.`;
+  window.__embervaultScene = view;
   window.__embervaultReady = true;
 } else {
-  const loop = createLoop(canvas, status);
-  // A read-only handle for automated play-tests; the game itself never uses it.
-  window.__embervaultState = loop.state;
+  fitCanvas(canvas);
+  const state = createGame();
+  const input = createInput(canvas);
+  const audio = createAudio();
+  window.__embervaultState = state;
+  startLoop({ canvas, state, render: renderer, input, audio, status });
 }

@@ -1,5 +1,5 @@
-// Deterministic randomness. Every run draws its waves from a seeded generator so a screenshot scene
-// replays identically, and so a restart is a fresh but reproducible run.
+// Deterministic randomness: xorshift32. Screenshot scenes replay from their seed, and a restart
+// is a new but reproducible run. No Math.random in the simulation.
 
 export function makeRng(seed) {
   let state = (seed >>> 0) || 0x9e3779b9;
@@ -16,7 +16,6 @@ export function makeRng(seed) {
     int: (min, max) => Math.floor(min + next() * (max - min + 1)),
     pick: (list) => list[Math.floor(next() * list.length)],
     angle: () => next() * Math.PI * 2,
-    /** True with probability p. */
     chance: (p) => next() < p,
   };
 }
